@@ -56,16 +56,28 @@ class UserResource(Resource):
         return {'message': 'User created', 'id': new_user.id}, 201
 
 class OrganizationResource(Resource):
-    def get(self, org_id):
-        organization = Organization.query.get(org_id)
-        if organization:
-            return {
-                'id': organization.id,
-                'name': organization.name,
-                'email': organization.email,
-                'description': organization.description
-            }, 200
-        return {'message': 'Organization not found'}, 404
+    def get(self, org_id=None):
+        if org_id is not None:
+            # Get a specific organization by ID
+            organization = Organization.query.get(org_id)
+            if organization:
+                return {
+                    'id': organization.id,
+                    'name': organization.name,
+                    'email': organization.email
+                }, 200
+            return {'message': 'Organization not found'}, 404
+        
+        # Get all organizations if no org_id is provided
+        organizations = Organization.query.all()
+        result = []
+        for org in organizations:
+            result.append({
+                'id': org.id,
+                'name': org.name,
+                'email': org.email
+            })
+        return result, 200
 
     def post(self):
         data = request.get_json()
@@ -112,7 +124,7 @@ class EventResource(Resource):
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['name', 'organization_id', 'latitude', 'longitude', 'time']
+        required_fields = ['name', 'organization_id', 'latitude', 'longitude', 'time', 'volunteer_count', 'severity']
         for field in required_fields:
             if field not in data:
                 return {'message': f'Missing required field: {field}'}, 400
@@ -129,7 +141,9 @@ class EventResource(Resource):
             latitude=data['latitude'],
             longitude=data['longitude'],
             description=data.get('description', ''),  # Default to empty string if not provided
-            time=data['time']  # Ensure that 'time' is a proper datetime object
+            time=data['time'],  # Ensure that 'time' is a proper datetime object
+            volunteer_count=data['volunteer_count'],
+            severity=data['severity']
         )
         
         db.session.add(new_event)

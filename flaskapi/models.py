@@ -31,7 +31,8 @@ class Event(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=True)
     time = db.Column(db.DateTime, nullable=False)
-    volunteer_type = db.Column(db.Integer, nullable=False)
+    volunteer_count = db.Column(db.Integer, nullable=False)
+    severity = db.Column(db.Integer, nullable=False)
 
 class EventRegistration(db.Model):
     __tablename__ = 'event_registrations'
