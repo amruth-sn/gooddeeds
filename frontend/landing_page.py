@@ -22,14 +22,15 @@ def landing_page():
         @st.dialog("Login")
         def login_modal():
                 email = st.text_input("Enter your email:")
+                password = st.text_input("Enter your password:", type="password")
                 if st.button("Submit"):
-                    if email:
+                    if email and password:
                         st.session_state['logged_in'] = True
                         st.write("Login successful!")
                         st.session_state['user_type'] = 'organization'
                         st.rerun()
                     else:
-                        st.write("Login failed. Please enter a valid email.")
+                        st.write("Login failed. Please enter a valid email and password.")
 
         if st.button("Login"):
             login_modal()
