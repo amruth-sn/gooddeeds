@@ -211,6 +211,8 @@ class EventRegistrationResource(Resource):
     #     for field in required_fields:
     #         if field not in data:
     #             return {'message': f'Missing required field: {field}'}, 400
+    
+    # getUserOrOrganizationFromEmail()
             
         
 
