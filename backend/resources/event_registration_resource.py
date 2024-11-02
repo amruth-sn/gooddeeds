@@ -15,9 +15,9 @@ class EventRegistrationResource(Resource):
         registration = EventRegistration.query.filter_by(event_id=event_id, user_id=user_id).first()
 
         if registration:
-            return {'registered': True}, 200
+            return {'exists': True}, 200
         else:
-            return {'registered': False}, 200
+            return {'exists': False}, 200
         
     def post(self):
         data = request.get_json()
