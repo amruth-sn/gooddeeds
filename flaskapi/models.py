@@ -19,6 +19,7 @@ class Organization(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    description = db.Column(db.Text, nullable=True)
 
 class Event(db.Model):
     __tablename__ = 'events'
@@ -30,9 +31,11 @@ class Event(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text, nullable=True)
     time = db.Column(db.DateTime, nullable=False)
+    volunteer_type = db.Column(db.Integer, nullable=False)
 
 class EventRegistration(db.Model):
     __tablename__ = 'event_registrations'
     
+    id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)

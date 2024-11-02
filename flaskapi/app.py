@@ -62,7 +62,8 @@ class OrganizationResource(Resource):
             return {
                 'id': organization.id,
                 'name': organization.name,
-                'email': organization.email
+                'email': organization.email,
+                'description': organization.description
             }, 200
         return {'message': 'Organization not found'}, 404
 
@@ -70,7 +71,7 @@ class OrganizationResource(Resource):
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['name', 'email']
+        required_fields = ['name', 'email', 'description']
         for field in required_fields:
             if field not in data:
                 return {'message': f'Missing required field: {field}'}, 400
@@ -83,7 +84,8 @@ class OrganizationResource(Resource):
         # Create a new organization
         new_organization = Organization(
             name=data['name'],
-            email=data['email']
+            email=data['email'],
+            description=data['description']
         )
         
         db.session.add(new_organization)
@@ -136,6 +138,22 @@ class EventResource(Resource):
         return {'message': 'Event created', 'id': new_event.id}, 201
 
 class EventRegistrationResource(Resource):
+    def get(self):
+        event_id = request.args.get('event_id')
+        user_id = request.args.get('user_id')
+
+        # Validate required parameters
+        if not event_id or not user_id:
+            return {'message': 'Missing required parameters: event_id and user_id'}, 400
+
+        # Check if the registration exists
+        registration = EventRegistration.query.filter_by(event_id=event_id, user_id=user_id).first()
+
+        if registration:
+            return {'registered': True}, 200
+        else:
+            return {'registered': False}, 200
+        
     def post(self):
         data = request.get_json()
         
@@ -170,6 +188,17 @@ class EventRegistrationResource(Resource):
         db.session.commit()
         
         return {'message': 'User registered for the event', 'event_id': new_registration.event_id, 'user_id': new_registration.user_id}, 201
+    
+    # def near_user(self):
+    #     data = request.get_json()
+        
+    #     # Validate required fields
+    #     required_fields = ['user_id']
+    #     for field in required_fields:
+    #         if field not in data:
+    #             return {'message': f'Missing required field: {field}'}, 400
+            
+        
 
 api.add_resource(UserResource, '/users/<int:user_id>', '/users')
 api.add_resource(OrganizationResource, '/organizations/<int:org_id>', '/organizations')
