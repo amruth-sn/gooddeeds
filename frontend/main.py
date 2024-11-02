@@ -75,7 +75,7 @@ st.markdown(
     /* Keep sidebar styling the same */
     .stSidebar>div {
         background-color: #272D2D;
-        color: #333;
+        color: white;
     }
     /* Additional elements styling */
     .stMarkdown {
