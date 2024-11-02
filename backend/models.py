@@ -37,6 +37,5 @@ class Event(db.Model):
 class EventRegistration(db.Model):
     __tablename__ = 'event_registrations'
     
-    id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
