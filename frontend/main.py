@@ -4,9 +4,10 @@ import requests
 import json
 
 from landing_page import landing_page
-from login import login
+
 from  display_organizations import display_organizations
 from event import post_event
+from userList import rank_users
 from profile import display_profile as profile
 from volunteer_dashboard import volunteer_dashboard
 # Configurations
@@ -152,10 +153,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-
-
 # User Session State
 if 'api_url' not in st.session_state:
     st.session_state['api_url'] = "https://gooddeeds.onrender.com"
@@ -212,6 +209,10 @@ if st.session_state['logged_in']:
         if 'current_page' not in st.session_state or not st.session_state['current_page']:
             st.session_state['current_page'] = 'post_event'
 
+        if st.sidebar.button("Rank Users"):
+            st.session_state['current_page'] = 'rank_users'
+            st.rerun()
+
         if st.sidebar.button("Manage Events"):
             st.session_state['current_page'] = 'post_event'
             st.rerun()  # Rerun to refresh the display
@@ -223,6 +224,8 @@ if st.session_state['logged_in']:
 
         if st.session_state['current_page'] == 'post_event':
             post_event()
+        if st.session_state['current_page'] == 'rank_users':
+            rank_users()
         elif st.session_state['current_page'] == 'profile':
             profile()
         
