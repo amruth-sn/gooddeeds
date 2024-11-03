@@ -11,6 +11,7 @@ class User(db.Model):
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
     distance = db.Column(db.Float, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
     xp = db.Column(db.Integer, default=0)
 
 class Organization(db.Model):
@@ -20,6 +21,7 @@ class Organization(db.Model):
     name = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.Text, nullable=True)
+    password = db.Column(db.String(80), nullable=False)
 
 class Event(db.Model):
     __tablename__ = 'events'

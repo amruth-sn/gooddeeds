@@ -34,19 +34,13 @@ def landing_page():
             if st.button("Submit"):
                 if email and password:
                     # check if in users table first and then check if in organizations table
-                    response = requests.get(f"{API_URL}/users?email={email}&password={password}")
-
+                    response = requests.post(f"{API_URL}/login",json={"email": email, "password": password})
                     if response.status_code == 200:
                         st.session_state['logged_in'] = True
                         st.write("Login successful!")
-                        st.session_state['user_type'] = 'volunteer'
-                        st.rerun()
+                        st.session_state['user_type'] = response.json()['role']
+                        print(st.session_state['user_type'])
 
-                    response = requests.get(f"{API_URL}/organizations?email={email}&password={password}")
-                    if response.status_code == 200:
-                        st.session_state['logged_in'] = True
-                        st.write("Login successful!")
-                        st.session_state['user_type'] = 'organization'
                         st.rerun()
                     else:
                         st.write("Login failed. Please enter a valid email and password.")
@@ -101,8 +95,15 @@ def landing_page():
                         if password != password2:
                             st.write("Passwords do not match. Please try again.")
                         elif email and password:
-                            response = requests.post(f"{API_URL}/users", json={"name": name, "email": email, "password": password, "latitude": 35, "longitude": 69, "distance": slider})
-
+                            response = requests.post(f"{API_URL}/signup", json={
+                            "type": "user",
+                            "name": name,
+                            "email": email,
+                            "password": password,
+                            "latitude": 69,
+                            "longitude": 69,
+                            "distance": slider
+                        })
                             if response.status_code == 201:
                                 st.write("Volunteer account created successfully! Please log in.")
                                 time.sleep(2)
@@ -136,13 +137,21 @@ def landing_page():
                         if password != password2:
                             st.write("Passwords do not match. Please try again.")
                         elif email and password and name:
-                            response = requests.post(f"{API_URL}/organizations", json={"name": name, "email": email, "password": password, "description": description})
+                            response = requests.post(f"{API_URL}/signup", json={
+                            "type": "organization",
+                            "name": name,
+                            "email": email,
+                            "password": password,
+                            "description": description
+                        })
 
                             if response.status_code == 201:
                                 st.write("Organization account created successfully! Please log in.")
                                 time.sleep(2)
                                 reset_states()
                                 st.rerun()
+                            else:
+                                st.write("Sign up failed. Please enter all required fields.")
                         else:
                             st.write("Sign up failed. Please enter all required fields.")
             organization_modal()
