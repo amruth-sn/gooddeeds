@@ -59,7 +59,9 @@ def display_organizations():
             email = org['email']
             description = org['description']
             with st.expander(f'**{name}**  		{email}'):
+                st.title(name)
                 st.write(f"**Description:** {description}")
+
 
                 # Fetch events for the organization
                 event_response = ret[id]
@@ -102,7 +104,7 @@ def display_organizations():
                             suffix = ["st", "nd", "rd"][day % 10 - 1]
 
                         formatdate = event_datetime.strftime(f'%B {day}{suffix}, %Y, %I:%M%p')
-                        st.title(f"Details for {eventname}")
+                        st.write(f"**Details for {eventname}**")
                         st.write(f"**Organized by:** {name}")
                         st.write(f"**Description:** {description}")
                         st.write(f"**Date & Time:** {formatdate}")
