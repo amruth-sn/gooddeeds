@@ -13,6 +13,8 @@ from resources.userlist_resource import UserListResource
 from resources.signup_resource import SignUpResource
 from resources.organizationlist_resource import OrganizationListResource
 from resources.eventlist_resource import EventListResource
+from resources.chatbot_resource import ChatbotResource
+from chat_backend import chat_bp
 from models import db
 from config import Config
 
@@ -37,8 +39,9 @@ api.add_resource(SignUpResource, '/signup')
 api.add_resource(OrganizationListResource, '/get-all-orgs')
 api.add_resource(EventListResource, '/get-all-events/<int:org_id>') 
 api.add_resource(UserListResource, '/getAllUsers')
+api.add_resource(ChatbotResource, '/chatbot/<int:event_id>')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
-    # app.run(debug=True, port=8080)
+    # app.run(host='0.0.0.0')
+    app.run(debug=True, port=8080)
