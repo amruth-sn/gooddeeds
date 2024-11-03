@@ -117,10 +117,12 @@ class EventMailerResource(Resource):
         for u in users:
             events_within_distance = []
             for e in events:
+                event_organization_id = e.organization_id
+                organization = Organization.query.get(event_organization_id)
                 distance = calculate_distance(u.latitude, u.longitude, e.latitude, e.longitude)
                 if distance <= u.distance:
-                    events_within_distance.append((e.name, e.organization, e.description))
+                    events_within_distance.append((e.name, organization.name, organization.description))
             html = format(u.id, events_within_distance)
-            send(u.get('email'), html)
+            send(u.email, html)
             
         return {'mail': True}, 200
