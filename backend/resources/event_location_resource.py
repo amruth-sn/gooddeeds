@@ -30,7 +30,8 @@ class EventLocationResource(Resource):
                     'longitude': event.longitude,
                     'description': event.description,
                     'time': event.time.isoformat(),
-                    'distance': event_distance
+                    'distance': event_distance,
+                    'severity': event.severity
                 })
 
         return {'events': events_within_distance}, 200

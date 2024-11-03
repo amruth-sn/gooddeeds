@@ -11,7 +11,8 @@ class OrganizationResource(Resource):
                 return {
                     'id': organization.id,
                     'name': organization.name,
-                    'email': organization.email
+                    'email': organization.email,
+                    'description': organization.description
                 }, 200
             return {'message': 'Organization not found'}, 404
         
@@ -22,7 +23,8 @@ class OrganizationResource(Resource):
             result.append({
                 'id': org.id,
                 'name': org.name,
-                'email': org.email
+                'email': org.email,
+                'description': org.description
             })
         return result, 200
 

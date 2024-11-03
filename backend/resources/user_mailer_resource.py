@@ -4,7 +4,7 @@ from models import Organization, User, Event
 import geopy.distance
 import requests
 
-def format(user_id, event_name, organization, description, recipient_name=None):
+def format(user_id, event_name, organization, severity, description, recipient_name=None):
     greeting = str(organization) + " needs your help!" if not recipient_name else f"Dear {recipient_name},"
     
     html = f'''<!DOCTYPE html>
@@ -98,6 +98,7 @@ def format(user_id, event_name, organization, description, recipient_name=None):
         <div class="event-card">
             <div class="event-title">{event_name}</div>
             <div class="organization">{organization}</div>
+            <div class="description">Severity: {severity*'★'}</div>
             <div class="description">{description}</div>
         </div>
         
@@ -162,6 +163,6 @@ class UserMailerResource(Resource):
                 })
 
         for u in users_within_distance:
-            html = format(u.get('id'), event.name, organization.name, event.description) 
+            html = format(u.get('id'), event.name, organization.name, event.severity, event.description) 
             send(u.get('email'), html)
         return {'mail': True}, 200

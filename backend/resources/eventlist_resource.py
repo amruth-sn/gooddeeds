@@ -10,14 +10,15 @@ class EventListResource(Resource):
         events = Event.query.filter_by(organization_id=org_id).all()
         # Convert the events to a list of dictionaries
         result = [
-            {
+            {   
                 'id': event.id,
                 'name': event.name,
                 'description': event.description,
                 'date': event.time.strftime('%Y-%m-%d %H:%M:%S'),
                 'latitude': event.latitude,
                 'longitude': event.longitude,
-                'organization_id': event.organization_id
+                'organization_id': event.organization_id,
+                'severity': event.severity
             }
             for event in events
         ]
