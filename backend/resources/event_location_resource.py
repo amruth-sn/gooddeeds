@@ -21,6 +21,7 @@ class EventLocationResource(Resource):
         
         for event in all_events:
             event_distance = calculate_distance(lat, lon, event.latitude, event.longitude)
+            # print(event_distance)
             if event_distance <= distance:
                 events_within_distance.append({
                     'id': event.id,

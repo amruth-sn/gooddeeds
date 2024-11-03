@@ -5,7 +5,9 @@ from datetime import datetime
 
 def display_organizations():
     API_URL = st.session_state['api_url']
+    # print(st.session_state['user_id'])
     userresponse = requests.get(f"{API_URL}/users/{st.session_state['user_id']}")
+    # print(userresponse)
     if userresponse.status_code == 200:
         user = userresponse.json()
         st.write(f"Welcome, {user['name']}!")
@@ -25,7 +27,8 @@ def display_organizations():
             }
         )
     if location_response.status_code == 200:
-        events_within_distance = location_response.json().get('events', [])
+        events_within_distance = location_response.json().get('events')
+        # print(events_within_distance)
         organization_ids_within_distance = {event['organization_id'] for event in events_within_distance}
         event_ids_within_distance = {event['id'] for event in events_within_distance}
         organizations = []
@@ -49,7 +52,7 @@ def display_organizations():
 
         start_datetime = datetime.combine(start_date, start_time)
         end_datetime = datetime.combine(end_date, end_time)
-
+        
         for org in organizations:
             name = org['name']
             id = org['id']
@@ -90,10 +93,19 @@ def display_organizations():
                         longitude = event['longitude']
                         severity = event['severity']
 
+
+                        date = datetime.fromisoformat(date).strftime('%B %d, %Y, %I:%M%p')
+                        day = event_datetime.day
+                        if 4 <= day <= 20 or 24 <= day <= 30:
+                            suffix = "th"
+                        else:
+                            suffix = ["st", "nd", "rd"][day % 10 - 1]
+
+                        formatdate = event_datetime.strftime(f'%B {day}{suffix}, %Y, %I:%M%p')
                         st.title(f"Details for {eventname}")
                         st.write(f"**Organized by:** {name}")
                         st.write(f"**Description:** {description}")
-                        st.write(f"**Date & Time:** {date}")
+                        st.write(f"**Date & Time:** {formatdate}")
 
                         location = latlong_to_zipcode(latitude, longitude)
                         st.write(f"**Location:** {location}")
