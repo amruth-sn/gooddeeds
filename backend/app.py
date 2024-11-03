@@ -37,4 +37,4 @@ api.add_resource(OrganizationListResource, '/get-all-orgs')
 api.add_resource(EventListResource, '/get-all-events/<int:org_id>') 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
