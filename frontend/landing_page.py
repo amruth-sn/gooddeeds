@@ -1,12 +1,11 @@
 import streamlit as st
 import requests
-import time
+from display_organizations import *
 from geopy.geocoders import Nominatim
-
+import time
 
 def landing_page():
     API_URL =st.session_state['api_url']
-
     # Initialize session states if they don't exist
     if 'signup_type' not in st.session_state:
         st.session_state.signup_type = None
@@ -14,7 +13,7 @@ def landing_page():
         st.session_state.show_options = False
     if 'modal_key' not in st.session_state:
         st.session_state.modal_key = 0
-
+        
     def is_valid_zip(zip_code):
     # Check if the ZIP code is all digits and is either 5 or 9 characters long
         if zip_code.isdigit() and (len(zip_code) == 5 or len(zip_code) == 9):
@@ -26,8 +25,9 @@ def landing_page():
     
     def zipcode_to_latlong(zipcode):
         geolocator = Nominatim(user_agent="gooddeeds")
-        location = geolocator.geocode(f"{zipcode}, USA")
+        location = geolocator.geocode(zipcode)
         return location.latitude, location.longitude
+
 
 
     col0, col1, col2, col3 = st.columns([1, 1, 1, 1])
@@ -39,9 +39,9 @@ def landing_page():
     st.title("Welcome to GoodDeeds!")
     st.subheader("Empowering communities through volunteerism")
     st.write("Join hands with NGOs to support community service and post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
-
+    
     get_started_col, login_col, e1, e2, e3, e4, e5, e6, e7, e8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-   
+    
     with login_col:
         @st.dialog("Login")
         def login_modal():
@@ -55,7 +55,7 @@ def landing_page():
                         st.session_state['logged_in'] = True
                         st.write("Login successful!")
                         st.session_state['user_type'] = response.json()['role']
-                        st.session_state['user_id'] = response.json()['user_id'] if st.session_state['user_type'] == 'volunteer' else response.json()['org_id']
+                        print(st.session_state['user_type'])
 
                         st.rerun()
                     else:
@@ -74,25 +74,25 @@ def landing_page():
         if st.button("Get Started"):
             reset_states()
             
-        if st.session_state.show_options:
-            @st.dialog("Sign up as:")
-            def type_modal():
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("Sign up as Volunteer"):
-                        if st.session_state.signup_type != 'volunteer':
-                            st.session_state.signup_type = 'volunteer'
-                            st.session_state.modal_key += 1
-                            st.rerun()
-                        
-                with col2:
-                    if st.button("Sign up as Organization"):
-                        if st.session_state.signup_type != 'organization':
-                            st.session_state.signup_type = 'organization'
-                            st.session_state.modal_key += 1
-                            st.rerun()
+            if st.session_state.show_options:
+                @st.dialog("Sign up as:")
+                def type_modal():
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button("Sign up as Volunteer"):
+                            if st.session_state.signup_type != 'volunteer':
+                                st.session_state.signup_type = 'volunteer'
+                                st.session_state.modal_key += 1
+                                st.rerun()
+                            
+                    with col2:
+                        if st.button("Sign up as Organization"):
+                            if st.session_state.signup_type != 'organization':
+                                st.session_state.signup_type = 'organization'
+                                st.session_state.modal_key += 1
+                                st.rerun()
             type_modal()
-        
+    
         if st.session_state.signup_type == 'volunteer':
             @st.dialog("Volunteer Registration")
             def volunteer_modal():
@@ -122,8 +122,8 @@ def landing_page():
                             "name": name,
                             "email": email,
                             "password": password,
-                            "latitude": latitude,
-                            "longitude": longitude,
+                            "latitude": 69,
+                            "longitude": 69,
                             "distance": slider
                         })
                             if response.status_code == 201:

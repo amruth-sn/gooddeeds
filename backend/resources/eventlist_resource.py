@@ -10,7 +10,7 @@ class EventListResource(Resource):
         events = Event.query.filter_by(organization_id=org_id).all()
         # Convert the events to a list of dictionaries
         result = [
-            {
+            {   
                 'id': event.id,
                 'name': event.name,
                 'description': event.description,
