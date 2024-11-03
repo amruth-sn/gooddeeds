@@ -1,13 +1,12 @@
 import streamlit as st
 import requests
-from display_organizations import *
-from event import post_event
-from login import login
 import time
+from geopy.geocoders import Nominatim
 
-API_URL =st.session_state['api_url']
 
 def landing_page():
+    API_URL =st.session_state['api_url']
+
     # Initialize session states if they don't exist
     if 'signup_type' not in st.session_state:
         st.session_state.signup_type = None
@@ -15,6 +14,20 @@ def landing_page():
         st.session_state.show_options = False
     if 'modal_key' not in st.session_state:
         st.session_state.modal_key = 0
+
+    def is_valid_zip(zip_code):
+    # Check if the ZIP code is all digits and is either 5 or 9 characters long
+        if zip_code.isdigit() and (len(zip_code) == 5 or len(zip_code) == 9):
+            return True
+    # Check if it's in the ZIP+4 format (5 digits, a hyphen, and 4 digits)
+        if len(zip_code) == 10 and zip_code[:5].isdigit() and zip_code[5] == '-' and zip_code[6:].isdigit():
+            return True
+        return False
+    
+    def zipcode_to_latlong(zipcode):
+        geolocator = Nominatim(user_agent="gooddeeds")
+        location = geolocator.geocode(zipcode)
+        return location.latitude, location.longitude
 
     col0, col1, col2 = st.columns([1, 1, 1])
     with col2:
@@ -83,7 +96,7 @@ def landing_page():
                 email = st.text_input("Enter your email:", key=f"v_email_{st.session_state.modal_key}")
                 password = st.text_input("Enter your password:", type="password", key=f"v_pass_{st.session_state.modal_key}")
                 password2 = st.text_input("Re-enter your password:", type="password", key=f"v_pass2_{st.session_state.modal_key}")
-                location = st.text_input("Enter your location:", key=f"v_loc_{st.session_state.modal_key}")
+                location = st.text_input("Enter your location as a zip code:", key=f"v_loc_{st.session_state.modal_key}")
                 slider = st.slider("Select your preferred distance:", 0, 200, 1, key=f"v_slider_{st.session_state.modal_key}")
                 
                 col1, col2 = st.columns([1,3])
@@ -95,7 +108,10 @@ def landing_page():
                     if st.button("Sign up", key=f"v_submit_{st.session_state.modal_key}"):
                         if password != password2:
                             st.write("Passwords do not match. Please try again.")
+                        elif not is_valid_zip(location):
+                            st.write("Please enter a valid zip code.")
                         elif email and password:
+                            latitude, longitude = zipcode_to_latlong(location)
                             response = requests.post(f"{API_URL}/signup", json={
                             "type": "user",
                             "name": name,

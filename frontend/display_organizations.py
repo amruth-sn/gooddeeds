@@ -1,10 +1,11 @@
 import streamlit as st
 import streamlit_chat as message
 import requests
-API_URL = st.session_state['api_url']
 
 
 def display_organizations():
+    API_URL = st.session_state['api_url']
+
     # Sample data; replace with actual database call
 
     
@@ -34,6 +35,7 @@ def display_organizations():
     
 
 def display_drive_details(name, id):
+    API_URL = st.session_state['api_url']
 
     response = requests.get(f"{API_URL}/get-all-events/{id}")
 

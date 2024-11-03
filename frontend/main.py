@@ -5,7 +5,7 @@ import json
 
 from landing_page import landing_page
 from login import login
-from  display_organizations import *
+from  display_organizations import display_organizations
 from event import post_event
 from profile import display_profile as profile
 # Configurations
@@ -158,8 +158,11 @@ st.markdown(
 # User Session State
 if 'api_url' not in st.session_state:
     st.session_state['api_url'] = "https://gooddeeds.onrender.com"
+    print("Session state contents:", st.session_state)
+
 if 'location' not in st.session_state:
     st.session_state['location'] = None
+
 if 'miles' not in st.session_state:
     st.session_state['miles'] = None
 
