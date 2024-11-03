@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-# from resources.event_mailer_resource import EventMailerResource, UserMailerResource
+from resources.event_mailer_resource import EventMailerResource
 from resources.user_mailer_resource import UserMailerResource
 from resources.event_location_resource import EventLocationResource
 from resources.event_registration_resource import EventRegistrationResource
@@ -27,7 +27,7 @@ api.add_resource(EventLocationResource, '/events/location')  # For events by lat
 api.add_resource(UserLocationResource, '/users/location')  # For events by latitude/longitude/distance
 api.add_resource(EventRegistrationResource, '/event-registrations')
 api.add_resource(UserMailerResource, '/usermailer')
-# api.add_resource(EventMailerResource, '/events/mailer')
+api.add_resource(EventMailerResource, '/eventmailer')
 api.add_resource(LoginResource, '/login')
 
 if __name__ == '__main__':
