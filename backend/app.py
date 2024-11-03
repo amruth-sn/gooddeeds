@@ -38,5 +38,7 @@ api.add_resource(OrganizationListResource, '/get-all-orgs')
 api.add_resource(EventListResource, '/get-all-events/<int:org_id>') 
 api.add_resource(UserListResource, '/getAllUsers')
 
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+    # app.run(debug=True, port=8080)

@@ -155,6 +155,8 @@ st.markdown(
 # User Session State
 if 'api_url' not in st.session_state:
     st.session_state['api_url'] = "https://gooddeeds.onrender.com"
+
+    
     # st.session_state['api_url'] = "http://127.0.0.1:8080"
     print("Session state contents:", st.session_state)
 
@@ -207,13 +209,13 @@ if st.session_state['logged_in']:
         
     elif user_type == 'organization':
         if 'current_page' not in st.session_state or not st.session_state['current_page']:
-            st.session_state['current_page'] = 'post_event'
+            st.session_state['current_page'] = 'rank_users'
 
         if st.sidebar.button("Rank Users"):
             st.session_state['current_page'] = 'rank_users'
             st.rerun()
 
-        if st.sidebar.button("Manage Events"):
+        if st.sidebar.button("Posts Events"):
             st.session_state['current_page'] = 'post_event'
             st.rerun()  # Rerun to refresh the display
 
