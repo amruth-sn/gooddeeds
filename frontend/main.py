@@ -3,6 +3,11 @@ from streamlit_chat import message
 import requests
 import json
 
+from landing_page import landing_page
+from login import login
+from  display_organizations import *
+from event import post_event
+from profile import display_profile as profile
 # Configurations
 st.set_page_config(page_title="GoodDeeds", layout="wide")
 
@@ -11,6 +16,16 @@ st.markdown(
     """
     <style>
     /* Navigation bar as a dropdown from the top */
+
+    div[data-testid="stDialog"] div[role="dialog"] {
+        background-color: #333333; /* Change background color */
+        color: #ffffff; /* Change text color */
+        border: 2px solid #4a8c0f; /* Change border color */
+        border-radius: 10px; /* Round corners */
+        padding: 20px; /* Add padding */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    }
+
     .sidebar .sidebar-content {
         animation: slide-down 0.5s ease-in-out;
     }
@@ -53,6 +68,8 @@ st.markdown(
     .stTextInput > div, .stTextArea > div, .stNumberInput > div, .stDateInput > div {
         # border: 1px solid black !important;
     }
+
+    
     
     /* Number input styling */
     .stNumberInput > div > input {
@@ -67,6 +84,16 @@ st.markdown(
     }
     
     /* Expander header styling */
+    .stExpander {
+        color: black;
+        border: 2px solid black !important;
+    }
+
+    .stPopover {
+        background-color: #FFDAB9 !important;
+        color: white;
+        }
+
     .st-expanderHeader {
         background-color: #4a8c0f;
         color: black;
@@ -117,126 +144,84 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
+
+
+
 # User Session State
 if 'location' not in st.session_state:
     st.session_state['location'] = None
 if 'miles' not in st.session_state:
     st.session_state['miles'] = None
+API_URL = "http://127.0.0.1:5000"  # URL of your Flask backend
 
-# Google SSO Login Placeholder (actual implementation should use an authentication library)
-def google_login():
-    st.info("Logging in with Google SSO...")
-    # Replace this with real SSO login logic
-    return True
+# Hide the Navbar at first
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+    st.session_state['user_type'] = None
+    st.session_state['user_id'] = None
 
-def landing_page():
-    col0, col1, col2 = st.columns([1, 1, 1])  # Creates two equal columns
-    with col2:  # Places image in right column
-        st.image("../assets/rb_74201.png", width=200)
-    st.title("Welcome to GoodDeeds!")
-    st.subheader("Empowering communities through volunteerism")
-    st.write("Join hands with NGOs to support post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
-    st.button("Get Started")
+# Landing Page
+if not st.session_state['logged_in']:
+    landing_page()
+        
+
+# User is logged in
+if st.session_state['logged_in']:
+    # Check user type and render respective pages
+    user_type = st.session_state['user_type']
     
+    # Make Navbar visible (simulated here with buttons for navigation)
+    st.sidebar.title("Navigation")
+    if user_type == 'volunteer':
+        if 'current_page' not in st.session_state or not st.session_state['current_page']:
+            st.session_state['current_page'] = 'display_organizations'
+
+        if st.sidebar.button("Volunteer Dashboard"):
+            st.session_state['current_page'] = 'volunteer_dashboard'
+            st.rerun()
+
+        if st.sidebar.button("Volunteer Events"):
+            st.session_state['current_page'] = 'display_organizations'
+            st.rerun()
+
+        if st.sidebar.button("Profile"):
+            st.session_state['current_page'] = 'profile'
+            st.rerun()
+
+        if st.session_state['current_page'] == 'display_organizations':
+            display_organizations()
+        elif st.session_state['current_page'] == 'profile':
+            profile()
+        # elif st.session_state['current_page'] == 'volunteer_dashboard':
+        
+        
+    elif user_type == 'organization':
+        if 'current_page' not in st.session_state or not st.session_state['current_page']:
+            st.session_state['current_page'] = 'post_event'
+
+        if st.sidebar.button("Manage Events"):
+            st.session_state['current_page'] = 'post_event'
+            st.rerun()  # Rerun to refresh the display
+
+        if st.sidebar.button("Profile"):
+            st.session_state['current_page'] = 'profile'
+            st.rerun()
 
 
-
-
-def user_signup():
-    if google_login():
-        st.success("Successfully signed up!")
-        if st.session_state['location'] is None:
-            with st.form("location_form"):
-                location = st.text_input("Enter your current location:")
-                miles = st.number_input("Enter the number of miles you're willing to travel:", min_value=1)
-                submit_button = st.form_submit_button("Submit")
-
-                if submit_button and location and miles:
-                    st.session_state['location'] = location
-                    st.session_state['miles'] = miles
-                    st.success(f"Location set to {location} and travel distance to {miles} miles.")
-
-def display_organizations():
-    # Sample data; replace with actual database call
-    organizations = {
-        "Helping Hands": ["Food Drive", "Clothing Donation"],
-        "Community Aid": ["Medical Camp", "Shelter Setup"],
-        "Relief Now": ["Rebuilding Project", "Education Drive"]
-    }
-
-    st.header("Organizations and Their Drives")
-    for org, drives in organizations.items():
-        with st.expander(org):
-            for drive in drives:
-                st.subheader(drive)
-                if st.button(f"Details for {drive}", key=f"details_{org}_{drive}"):
-                    display_drive_details(org, drive)
-
-def display_drive_details(org, drive):
-    st.title(f"Details for {drive}")
-    st.write(f"**Organized by:** {org}")
-    st.write(f"**Description:** Detailed information about the {drive} including what is needed and how users can help.")
-    st.write(f"**Date & Time:** TBD")
-    st.write(f"**Location:** Example Location")
-
-    if st.button("Volunteer for this Drive", key=f"volunteer_{org}_{drive}"):
-        st.success(f"You have successfully enrolled for the {drive}.")
-        # Add logic to enroll the user into the database
+        if st.session_state['current_page'] == 'post_event':
+            post_event()
+        elif st.session_state['current_page'] == 'profile':
+            profile()
+        
+        
     
-    # Chatbot placeholder (using OpenAI or other chat service)
-    st.header("Chat with our AI Assistant")
-    if 'messages' not in st.session_state:
-        st.session_state['messages'] = []
-    user_input = st.text_input("You: ", "", key="user_input")
-    if user_input:
-        st.session_state['messages'].append({"role": "user", "content": user_input})
-        # Sample AI response logic (use actual API integration)
-        st.session_state['messages'].append({"role": "assistant", "content": f"Response to '{user_input}'"})
-
-    for msg in st.session_state['messages']:
-        if msg['role'] == 'user':
-            message(msg['content'], is_user=True)
-        else:
-            message(msg['content'])
-
-def user_profile():
-    st.header("User Profile")
-    st.text_input("Name", "User Name", disabled=True)
-    st.text_input("Email", "user@example.com", disabled=True)
-    st.write(f"Your current level is level 1. Reach level 10 to start unlocking incentives!")
-    st.button("Update Details")
-
-def organization_signup():
-    st.header("Organization Signup")
-    st.text_input("Organization Name")
-    st.text_area("Description")
-    st.text_input("Contact Email")
-    if st.button("Sign Up Organization"):
-        st.success("Organization registered successfully.")
-        # Add logic to store organization details in the database
-
-def post_event():
-    st.header("Post an Event/Drive")
-    st.text_input("Event Name")
-    st.text_area("Event Details")
-    st.date_input("Date of Event")
-    st.text_input("Event Location")
-    if st.button("Post Event"):
-        st.success("Event posted successfully.")
-        # Add logic to save event details in the database
+    # Add logout button
+    if st.sidebar.button("Logout"):
+        st.session_state['logged_in'] = False
+        st.session_state['user_type'] = None
+        st.session_state['user_id'] = None
+        st.session_state['current_page'] = None
+        st.rerun()
 
 # Main App Logic
-menu = st.sidebar.radio("Navigation", ["Landing Page", "User Signup", "Organizations & Drives", "User Profile", "Organization Signup", "Post Event"])
-
-if menu == "Landing Page":
-    landing_page()
-elif menu == "User Signup":
-    user_signup()
-elif menu == "Organizations & Drives":
-    display_organizations()
-elif menu == "User Profile":
-    user_profile()
-elif menu == "Organization Signup":
-    organization_signup()
-elif menu == "Post Event":
-    post_event()
