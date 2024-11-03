@@ -106,8 +106,8 @@ st.markdown("""
 
 # User Session State
 if 'api_url' not in st.session_state:
-    st.session_state['api_url'] = "https://gooddeeds.onrender.com"
-    # st.session_state['api_url'] = "http://127.0.0.1:8080"
+    st.session_state['api_url'] = "https://gooddeeds-z0x9.onrender.com"
+    
 
 if 'location' not in st.session_state:
     st.session_state['location'] = None
