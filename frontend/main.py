@@ -4,7 +4,7 @@ import requests
 import json
 
 from landing_page import landing_page
-from login import login
+
 from  display_organizations import display_organizations
 from event import post_event
 from profile import display_profile as profile
@@ -151,13 +151,10 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-
-
 # User Session State
 if 'api_url' not in st.session_state:
-    st.session_state['api_url'] = "https://gooddeeds.onrender.com"
+    # st.session_state['api_url'] = "https://gooddeeds.onrender.com"
+    st.session_state['api_url'] = "http://127.0.0.1:5000"
     print("Session state contents:", st.session_state)
 
 if 'location' not in st.session_state:
@@ -210,6 +207,10 @@ if st.session_state['logged_in']:
     elif user_type == 'organization':
         if 'current_page' not in st.session_state or not st.session_state['current_page']:
             st.session_state['current_page'] = 'post_event'
+
+        if st.sidebar.button("Rank Users"):
+            st.session_state['current_page'] = 'rank_users'
+            st.rerun()
 
         if st.sidebar.button("Manage Events"):
             st.session_state['current_page'] = 'post_event'

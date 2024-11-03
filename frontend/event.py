@@ -9,3 +9,5 @@ def post_event():
     if st.button("Post Event"):
         st.success("Event posted successfully.")
         # Add logic to save event details in the database
+
+

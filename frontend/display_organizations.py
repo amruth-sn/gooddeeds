@@ -5,17 +5,6 @@ import requests
 
 def display_organizations():
     API_URL = st.session_state['api_url']
-
-    # Sample data; replace with actual database call
-
-    
-
-    # organizations = {
-    #     "Helping Hands": ["Food Drive", "Clothing Donation"],
-    #     "Community Aid": ["Medical Camp", "Shelter Setup"],
-    #     "Relief Now": ["Rebuilding Project", "Education Drive"]
-    # }
-
     response = requests.get(f"{API_URL}/get-all-orgs")
     if response.status_code == 200:
         organizations = response.json()
@@ -63,12 +52,3 @@ def display_drive_details(name, id):
     else:
         st.write("Unable to fetch events at this time. Please try again later.")
 
-    
-    
-    
-
-    # for msg in st.session_state['messages']:
-    #     if msg['role'] == 'user':
-    #         message(msg['content'], is_user=True)
-    #     else:
-    #         message(msg['content'])

@@ -35,6 +35,7 @@ api.add_resource(LoginResource, '/login')
 api.add_resource(SignUpResource, '/signup')
 api.add_resource(OrganizationListResource, '/get-all-orgs')
 api.add_resource(EventListResource, '/get-all-events/<int:org_id>') 
+api.add_resource(UserResource, '/getAllUsers')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
