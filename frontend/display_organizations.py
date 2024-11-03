@@ -3,6 +3,69 @@ import requests
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
+def init_chat_state(event_id):
+    """Initialize chat state for a specific event"""
+    if f'messages_{event_id}' not in st.session_state:
+        st.session_state[f'messages_{event_id}'] = []
+        # Add initial system message about the event
+        st.session_state[f'messages_{event_id}'].append({
+            "role": "system",
+            "content": "I am an AI assistant here to help answer questions about this event."
+        })
+
+def display_chat(event_id, event_name, api_url):
+    """Display chat interface for a specific event"""
+    init_chat_state(event_id)
+    
+    # Create a container for the chat interface
+    chat_container = st.container()
+    
+    with chat_container:
+        st.subheader(f"Chat about: {event_name}")
+        
+        # Display chat messages (skip system message)
+        for message in st.session_state[f'messages_{event_id}'][1:]:
+            with st.chat_message(message["role"]):
+                st.write(message["content"])
+        
+        # Chat input with unique key
+        if prompt := st.chat_input(
+            "Ask about this event...",
+            key=f"chat_input_{event_id}"  # Add unique key for each event's chat input
+        ):
+            # Add user message to chat history
+            st.session_state[f'messages_{event_id}'].append({"role": "user", "content": prompt})
+            
+            # Display user message
+            with st.chat_message("user"):
+                st.write(prompt)
+            
+            # Get AI response
+            try:
+                with st.spinner("Thinking..."):
+                    response = requests.post(
+                        f"{api_url}/chatbot/{event_id}",
+                        json={
+                            "message": prompt
+                        }
+                    )
+                    
+                    if response.status_code == 200:
+                        ai_response = response.json()['response']
+                        # Add AI response to chat history
+                        st.session_state[f'messages_{event_id}'].append(
+                            {"role": "assistant", "content": ai_response}
+                        )
+                        # Display AI response
+                        with st.chat_message("assistant"):
+                            st.write(ai_response)
+                    else:
+                        st.error("Failed to get response from the chatbot.")
+                        
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
+
+
 def display_organizations():
     API_URL = st.session_state['api_url']
     # print(st.session_state['user_id'])
@@ -113,12 +176,43 @@ def display_organizations():
                         st.write(f"**Location:** {location}")
                         st.write(f"**Severity:** {severity*'★'}")
 
-                        if st.button("Volunteer for this event", key=id):
-                            volresponse = requests.post(f"{API_URL}/event-registrations", json={"event_id": id, "user_id": st.session_state['user_id']})
-                            if volresponse.status_code == 201:
-                                st.write("You have successfully volunteered for this event!")
-                            else:
-                                st.write("Unable to volunteer for this event at this time. Please try again later.")
+                        col1, col2 = st.columns([1, 1])
+                        
+                        with col1:
+                            if st.button("Volunteer for this event", key=id):
+                                volresponse = requests.post(f"{API_URL}/event-registrations", json={"event_id": id, "user_id": st.session_state['user_id']})
+                                if volresponse.status_code == 201:
+                                    st.write("You have successfully volunteered for this event!")
+                                else:
+                                    st.write("Unable to volunteer for this event at this time. Please try again later.")
+
+                        with col2:
+                            chat_button_key = f"chat_button_{id}"  # Added unique key for chat button
+                            if st.button("Chat about event", key=chat_button_key):
+                                st.session_state[f'show_chat_{id}'] = True
+        
+                        # Display chat interface if button was clicked
+                        if st.session_state.get(f'show_chat_{id}', False):
+                            display_chat(id, eventname, API_URL)
+                            close_button_key = f"close_chat_{id}"  # Added unique key for close button
+                            if st.button("Close Chat", key=close_button_key):
+                                st.session_state[f'show_chat_{id}'] = False
+                                st.rerun()
+
+                        # with col2:
+                        #     chat_button_key = f"chat_button_{id}"  # Added unique key for chat button
+                        #     if st.button("Chat about event", key=chat_button_key):
+                        #         st.session_state[f'show_chat_{id}'] = True
+        
+                        # # Display chat interface if button was clicked
+                        # if st.session_state.get(f'show_chat_{id}', False):
+                        #     display_chat(id, eventname, API_URL)
+                        #     close_button_key = f"close_chat_{id}"  # Added unique key for close button
+                        #     if st.button("Close Chat", key=close_button_key):
+                        #         st.session_state[f'show_chat_{id}'] = False
+                        #         st.rerun()
+
+
                 else:
                     st.write("No events found for the selected date and time range.")
                 
