@@ -23,7 +23,7 @@ class EventRegistrationResource(Resource):
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['event_id', 'user_id']
+        required_fields = ['event_id', 'user_id', ]
         for field in required_fields:
             if field not in data:
                 return {'message': f'Missing required field: {field}'}, 400
@@ -46,7 +46,8 @@ class EventRegistrationResource(Resource):
         # Create a new event registration
         new_registration = EventRegistration(
             event_id=data['event_id'],
-            user_id=data['user_id']
+            user_id=data['user_id'],
+            status='INCOMPLETE'
         )
         
         db.session.add(new_registration)

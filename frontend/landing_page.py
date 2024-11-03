@@ -5,7 +5,7 @@ from event import post_event
 from login import login
 import time
 
-API_URL = "http://127.0.0.1:5000"
+API_URL =st.session_state['api_url']
 
 def landing_page():
     # Initialize session states if they don't exist
@@ -39,6 +39,7 @@ def landing_page():
                         st.session_state['logged_in'] = True
                         st.write("Login successful!")
                         st.session_state['user_type'] = response.json()['role']
+                        st.session_state['user_id'] = response.json()['user_id'] if st.session_state['user_type'] == 'volunteer' else response.json()['org_id']
                         print(st.session_state['user_type'])
 
                         st.rerun()

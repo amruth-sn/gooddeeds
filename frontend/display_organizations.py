@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit_chat as message
 import requests
-API_URL = "http://127.0.0.1:5000"
+API_URL = st.session_state['api_url']
 
 
 def display_organizations():
@@ -43,6 +43,7 @@ def display_drive_details(name, id):
             eventname = event['name']
             description = event['description']
             date = event['date']
+            id = event['id']
             latitude = event['latitude']
             longitude = event['longitude']
             st.title(f"Details for {eventname}")
@@ -51,8 +52,12 @@ def display_drive_details(name, id):
             st.write(f"**Date & Time:** {date}")
             st.write(f"**Location:** {(latitude, longitude)}")
 
-            # if st.button("Volunteer for this Drive", key=f"volunteer_{org}_{drive}"):
-                # st.success(f"You have successfully enrolled for the {drive}.")
+            if st.button("Volunteer for this event", key=id):
+                response = requests.post(f"{API_URL}/event-registrations", json={"event_id": id, "user_id": st.session_state['user_id']})
+                if response.status_code == 201:
+                    st.write("You have successfully volunteered for this event!")
+                else:
+                    st.write("Unable to volunteer for this event at this time. Please try again later.")
     else:
         st.write("Unable to fetch events at this time. Please try again later.")
 

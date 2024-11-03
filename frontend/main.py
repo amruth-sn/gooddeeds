@@ -156,11 +156,12 @@ st.markdown(
 
 
 # User Session State
+if 'api_url' not in st.session_state:
+    st.session_state['api_url'] = "https://gooddeeds.onrender.com"
 if 'location' not in st.session_state:
     st.session_state['location'] = None
 if 'miles' not in st.session_state:
     st.session_state['miles'] = None
-API_URL = "http://127.0.0.1:5000"  # URL of your Flask backend
 
 # Hide the Navbar at first
 if 'logged_in' not in st.session_state:

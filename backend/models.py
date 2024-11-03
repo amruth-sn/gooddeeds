@@ -41,3 +41,4 @@ class EventRegistration(db.Model):
     
     event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    status = db.Column(db.String(80), nullable=False)
