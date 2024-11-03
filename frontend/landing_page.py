@@ -26,7 +26,7 @@ def landing_page():
     
     def zipcode_to_latlong(zipcode):
         geolocator = Nominatim(user_agent="gooddeeds")
-        location = geolocator.geocode(zipcode)
+        location = geolocator.geocode(f"{zipcode}, USA")
         return location.latitude, location.longitude
 
     col0, col1, col2 = st.columns([1, 1, 1])
@@ -53,7 +53,6 @@ def landing_page():
                         st.write("Login successful!")
                         st.session_state['user_type'] = response.json()['role']
                         st.session_state['user_id'] = response.json()['user_id'] if st.session_state['user_type'] == 'volunteer' else response.json()['org_id']
-                        print(st.session_state['user_type'])
 
                         st.rerun()
                     else:
@@ -117,8 +116,8 @@ def landing_page():
                             "name": name,
                             "email": email,
                             "password": password,
-                            "latitude": 69,
-                            "longitude": 69,
+                            "latitude": latitude,
+                            "longitude": longitude,
                             "distance": slider
                         })
                             if response.status_code == 201:

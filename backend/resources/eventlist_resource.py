@@ -17,7 +17,8 @@ class EventListResource(Resource):
                 'date': event.time.strftime('%Y-%m-%d %H:%M:%S'),
                 'latitude': event.latitude,
                 'longitude': event.longitude,
-                'organization_id': event.organization_id
+                'organization_id': event.organization_id,
+                'severity': event.severity
             }
             for event in events
         ]

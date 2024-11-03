@@ -18,7 +18,6 @@ class SignUpResource(Resource):
         
         elif account_type == 'user':
             user_resource = UserResource()
-            print(data)
             response, status_code = user_resource.post()
             return response, status_code
         

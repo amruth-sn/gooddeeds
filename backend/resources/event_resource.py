@@ -13,7 +13,8 @@ class EventResource(Resource):
                 'latitude': event.latitude,
                 'longitude': event.longitude,
                 'description': event.description,
-                'time': event.time.isoformat()  # Return time in ISO format
+                'time': event.time.isoformat(),  # Return time in ISO format
+                'severity': event.severity
             }, 200
         return {'message': 'Event not found'}, 404
 

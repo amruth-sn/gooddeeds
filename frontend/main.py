@@ -8,6 +8,7 @@ from login import login
 from  display_organizations import display_organizations
 from event import post_event
 from profile import display_profile as profile
+from volunteer_dashboard import volunteer_dashboard
 # Configurations
 st.set_page_config(page_title="GoodDeeds", layout="wide")
 
@@ -158,7 +159,7 @@ st.markdown(
 # User Session State
 if 'api_url' not in st.session_state:
     st.session_state['api_url'] = "https://gooddeeds.onrender.com"
-    print("Session state contents:", st.session_state)
+    # st.session_state['api_url'] = "http://127.0.0.1:5000"
 
 if 'location' not in st.session_state:
     st.session_state['location'] = None
