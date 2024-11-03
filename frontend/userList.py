@@ -20,9 +20,10 @@ def rank_users():
         
         # Reorder columns
         df = df[['rank', 'name', 'email', 'latitude', 'longitude', 'xp']]
+
         
-        # Display the table
-        st.table(df)
+        # Display the table without index using st.dataframe()
+        st.write(df.to_html(index=False), unsafe_allow_html=True)
     else:
         st.write("No user data available.")
 
