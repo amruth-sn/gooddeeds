@@ -132,9 +132,6 @@ if st.session_state['logged_in']:
         if 'current_page' not in st.session_state or not st.session_state['current_page']:
             st.session_state['current_page'] = 'display_organizations'
         if st.sidebar.button("Volunteer Dashboard"):
-            st.session_state['current_page'] = 'volunteer_dashboard'
-            st.rerun()
-        if st.sidebar.button("Volunteer Events"):
             st.session_state['current_page'] = 'display_organizations'
             st.rerun()
         if st.sidebar.button("Profile"):
