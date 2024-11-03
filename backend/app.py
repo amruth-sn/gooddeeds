@@ -9,6 +9,7 @@ from resources.login_resource import LoginResource
 from resources.organization_resource import OrganizationResource
 from resources.user_location_resource import UserLocationResource
 from resources.user_resource import UserResource
+from resources.signup_resource import SignUpResource
 from models import db
 from config import Config
 
@@ -29,6 +30,7 @@ api.add_resource(EventRegistrationResource, '/event-registrations')
 api.add_resource(UserMailerResource, '/usermailer')
 api.add_resource(EventMailerResource, '/eventmailer')
 api.add_resource(LoginResource, '/login')
+api.add_resource(SignUpResource, '/signup')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

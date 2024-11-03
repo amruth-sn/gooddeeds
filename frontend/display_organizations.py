@@ -29,14 +29,7 @@ def display_drive_details(org, drive):
         # Add logic to enroll the user into the database
     
     # Chatbot placeholder (using OpenAI or other chat service)
-    st.header("Chat with our AI Assistant")
-    if 'messages' not in st.session_state:
-        st.session_state['messages'] = []
-    user_input = st.text_input("You: ", "", key="user_input")
-    if user_input:
-        st.session_state['messages'].append({"role": "user", "content": user_input})
-        # Sample AI response logic (use actual API integration)
-        st.session_state['messages'].append({"role": "assistant", "content": f"Response to '{user_input}'"})
+    
 
     for msg in st.session_state['messages']:
         if msg['role'] == 'user':
