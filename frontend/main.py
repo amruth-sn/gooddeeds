@@ -7,6 +7,7 @@ from landing_page import landing_page
 
 from  display_organizations import display_organizations
 from event import post_event
+from userList import rank_users
 from profile import display_profile as profile
 # Configurations
 st.set_page_config(page_title="GoodDeeds", layout="wide")
@@ -14,7 +15,7 @@ st.set_page_config(page_title="GoodDeeds", layout="wide")
 # User Session State
 if 'api_url' not in st.session_state:
     st.session_state['api_url'] = "https://gooddeeds.onrender.com"
-    # st.session_state['api_url'] = "http://127.0.0.1:5000"
+    # st.session_state['api_url'] = "http://127.0.0.1:8080"
     print("Session state contents:", st.session_state)
 
 if 'location' not in st.session_state:
@@ -83,6 +84,8 @@ if st.session_state['logged_in']:
 
         if st.session_state['current_page'] == 'post_event':
             post_event()
+        if st.session_state['current_page'] == 'rank_users':
+            rank_users()
         elif st.session_state['current_page'] == 'profile':
             profile()
         
