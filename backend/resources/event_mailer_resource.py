@@ -75,16 +75,14 @@ def format(user_id, events):
 
     # Generate HTML for each event
     event_contents = []
-    for name, organization, description, severity in events:
+    for name, organization, description in events:
         # Create a URL-friendly version of the event name for the registration link
         register_link = f"#register-{name.lower().replace(' ', '-')}"
-        
         event_html = f'''
         <div class="event">
             <div class="event-title">{name}</div>
             <div class="organization">{organization}</div>
             <div class="description">{description}</div>
-            <div class="description">{severity*'★'}</div>
             <a href="{register_link}" class="register-button">Register Now</a>
         </div>'''
         event_contents.append(event_html)
