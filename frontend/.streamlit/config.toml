@@ -1,7 +1,15 @@
-
 [theme]
-primaryColor="#6E7EFF"
-backgroundColor="#F7FBFF"
-secondaryBackgroundColor="#F0F2F6"
-textColor="#31333F"
-font="sans serif"
+# Primary color for interactive elements
+primaryColor = "#2E7D32"  # Forest Green - Main accent color for buttons and interactive elements
+
+# Main background color
+backgroundColor = "#FFFFFF"  # Pure White - Main background
+
+# Background color for sidebar and most widgets
+secondaryBackgroundColor = "#F1F8E9"  # Light Mint - Secondary panels and cards
+
+# Color of body text
+textColor = "#263238"  # Dark Blue-Grey - Primary text
+
+# Font family for all text
+font = "sans serif"
