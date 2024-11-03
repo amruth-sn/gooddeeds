@@ -9,4 +9,5 @@ def send(recipients, events):
                 "to": ["bostonhacksgooddeeds@gmail.com"],
                 "bcc": recipients,
                 "subject": "Your help is needed!",
-                "text": "Testing some Mailgun awesomeness!"})
+                "text": "Testing some Mailgun awesomeness!"
+                "html"})

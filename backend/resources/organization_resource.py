@@ -30,7 +30,7 @@ class OrganizationResource(Resource):
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['name', 'email', 'description']
+        required_fields = ['name', 'email', 'description', 'password']
         for field in required_fields:
             if field not in data:
                 return {'message': f'Missing required field: {field}'}, 400
@@ -44,7 +44,8 @@ class OrganizationResource(Resource):
         new_organization = Organization(
             name=data['name'],
             email=data['email'],
-            description=data['description']
+            description=data['description'],
+            password=data['password']
         )
         
         db.session.add(new_organization)
