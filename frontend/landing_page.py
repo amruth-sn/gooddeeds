@@ -29,15 +29,18 @@ def landing_page():
         location = geolocator.geocode(f"{zipcode}, USA")
         return location.latitude, location.longitude
 
-    col0, col1, col2 = st.columns([1, 1, 1])
-    with col2:
-        st.image("../assets/rb_74201.png", width=200)
+
+    col0, col1, col2, col3 = st.columns([1, 1, 1, 1])
+    with col0:
+        c0, c1 = st.columns([1, 1])
+        with c0:
+            st.image("../assets/rb_74201.png", width=100)
    
     st.title("Welcome to GoodDeeds!")
     st.subheader("Empowering communities through volunteerism")
-    st.write("Join hands with NGOs to support post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
-    
-    login_col, get_started_col = st.columns([1, 1])
+    st.write("Join hands with NGOs to support community service and post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
+
+    get_started_col, login_col, e1, e2, e3, e4, e5, e6, e7, e8 = st.columns([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
    
     with login_col:
         @st.dialog("Login")
@@ -72,20 +75,23 @@ def landing_page():
             reset_states()
             
         if st.session_state.show_options:
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Sign up as Volunteer"):
-                    if st.session_state.signup_type != 'volunteer':
-                        st.session_state.signup_type = 'volunteer'
-                        st.session_state.modal_key += 1
-                        st.rerun()
-                    
-            with col2:
-                if st.button("Sign up as Organization"):
-                    if st.session_state.signup_type != 'organization':
-                        st.session_state.signup_type = 'organization'
-                        st.session_state.modal_key += 1
-                        st.rerun()
+            @st.dialog("Sign up as:")
+            def type_modal():
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("Sign up as Volunteer"):
+                        if st.session_state.signup_type != 'volunteer':
+                            st.session_state.signup_type = 'volunteer'
+                            st.session_state.modal_key += 1
+                            st.rerun()
+                        
+                with col2:
+                    if st.button("Sign up as Organization"):
+                        if st.session_state.signup_type != 'organization':
+                            st.session_state.signup_type = 'organization'
+                            st.session_state.modal_key += 1
+                            st.rerun()
+            type_modal()
         
         if st.session_state.signup_type == 'volunteer':
             @st.dialog("Volunteer Registration")
