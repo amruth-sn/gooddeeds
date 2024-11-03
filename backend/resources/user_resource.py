@@ -13,6 +13,7 @@ class UserResource(Resource):
                 'latitude': user.latitude,
                 'longitude': user.longitude,
                 'distance': user.distance,
+                'password': user.password,
                 'xp': user.xp
             }, 200
         return {'message': 'User not found'}, 404
@@ -21,7 +22,7 @@ class UserResource(Resource):
         data = request.get_json()
         
         # Validate required fields
-        required_fields = ['email', 'name', 'latitude', 'longitude', 'distance']
+        required_fields = ['email', 'name', 'latitude', 'longitude', 'distance', 'password']
         for field in required_fields:
             if field not in data:
                 return {'message': f'Missing required field: {field}'}, 400
@@ -38,6 +39,7 @@ class UserResource(Resource):
             latitude=data['latitude'],
             longitude=data['longitude'],
             distance=data['distance'],
+            password=data['password'],
             xp=data.get('xp', 0)  # Default to 0 if xp not provided
         )
         

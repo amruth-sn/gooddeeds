@@ -125,7 +125,7 @@ def landing_page():
                 password2 = st.text_input("Re-enter your password:", type="password", key=f"o_pass2_{st.session_state.modal_key}")
                 name = st.text_input("Enter your organization's name:", key=f"o_name_{st.session_state.modal_key}")
                 description = st.text_area("Enter a brief description of your organization:", key=f"o_desc_{st.session_state.modal_key}")
-                
+
                 col1, col2 = st.columns([1,3])
                 with col1:
                     if st.button("Cancel", key=f"o_cancel_{st.session_state.modal_key}"):
