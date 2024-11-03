@@ -31,4 +31,4 @@ api.add_resource(EventMailerResource, '/eventmailer')
 api.add_resource(LoginResource, '/login')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')

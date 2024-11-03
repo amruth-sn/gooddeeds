@@ -64,7 +64,7 @@ def format(user_id, events):
 </head>
 <body>
     <div class="event-container">
-        <h1 style="color: #2c3e50; margin-bottom: 30px;">Upcoming Events</h1>
+        <h1 style="color: #2c3e50; margin-bottom: 30px;">Upcoming Events this Week</h1>
 '''
 
     # Define the footer
@@ -121,7 +121,7 @@ class EventMailerResource(Resource):
                 organization = Organization.query.get(event_organization_id)
                 distance = calculate_distance(u.latitude, u.longitude, e.latitude, e.longitude)
                 if distance <= u.distance:
-                    events_within_distance.append((e.name, organization.name, organization.description))
+                    events_within_distance.append((e.name, organization.name, e.description))
             html = format(u.id, events_within_distance)
             send(u.email, html)
             
