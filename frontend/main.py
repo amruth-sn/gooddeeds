@@ -1,13 +1,9 @@
 import streamlit as st
-from streamlit_chat import message
-import requests
-import json
 from landing_page import landing_page
 from display_organizations import display_organizations
 from event import post_event
 from userList import rank_users
 from profile import display_profile as profile
-from volunteer_dashboard import volunteer_dashboard
 
 st.set_page_config(page_title="GoodDeeds", layout="wide")
 
