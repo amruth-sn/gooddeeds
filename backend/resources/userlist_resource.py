@@ -3,6 +3,7 @@ from flask_restful import Resource
 from models import User
 from geopy.geocoders import Nominatim
 
+
 app = Flask(__name__)
 
 def latlong_to_zipcode(latitude, longitude):
@@ -20,14 +21,14 @@ class UserListResource(Resource):
         users = User.query.all()
         result = []
         for user in users:
-            # zipcode = latlong_to_zipcode(user.latitude, user.longitude)
+            zipcode = latlong_to_zipcode(user.latitude, user.longitude)
             result.append({
                 'id': user.id,
                 'name': user.name,
                 'email': user.email,
                 'latitude': user.latitude,
                 'longitude': user.longitude,
-                # 'zipcode': zipcode,
+                'zipcode': zipcode,
                 'xp': user.xp
             })
         return result, 200

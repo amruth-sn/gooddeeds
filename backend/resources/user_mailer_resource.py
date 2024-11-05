@@ -3,6 +3,7 @@ from flask import request
 from models import Organization, User, Event
 import geopy.distance
 import requests
+from config import Config
 
 def format(user_id, event_name, organization, severity, description, recipient_name=None):
     greeting = str(organization) + " needs your help!" if not recipient_name else f"Dear {recipient_name},"
@@ -118,10 +119,10 @@ def format(user_id, event_name, organization, severity, description, recipient_n
 
 def send(recipients, html):
     requests.post(
-        "https://api.mailgun.net/v3/sandboxb60fe2f98f7648a484618d404bf779ab.mailgun.org/messages",
-        auth=("api", "85a45e972e315b848c6aca6512439175-72e4a3d5-8c1842e3"),
-        data={"from": "<mailgun@sandboxb60fe2f98f7648a484618d404bf779ab.mailgun.org>",
-            "to": ["bostonhacksgooddeeds@gmail.com"],
+        f"https://api.mailgun.net/v3/{Config.MAILGUN_SANDBOX}.mailgun.org/messages",
+        auth=("api", f"{Config.MAILGUN_API_KEY}"),
+        data={"from": f"<mailgun@{Config.MAILGUN_SANDBOX}.mailgun.org>",
+            "to": ["gooddeedsplatform@gmail.com"],
             "bcc": recipients,
             "subject": "We need your help!",
             "text": "test",
@@ -163,6 +164,7 @@ class UserMailerResource(Resource):
                 })
 
         for u in users_within_distance:
+            print(u)
             html = format(u.get('id'), event.name, organization.name, event.severity, event.description) 
             send(u.get('email'), html)
         return {'mail': True}, 200

@@ -90,12 +90,14 @@ st.markdown("""
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #f1f1f1;
+        background-color: rgba(241, 241, 241, 1);
         color: #555;
         text-align: center;
         padding: 10px;
         font-size: 0.8rem;
     }
+            
+    [data-testid='stHeaderActionElements'] {display: none;}
     </style>
     <div class="footer">
         Made with ❤️ for BostonHacks 2024.
@@ -137,19 +139,23 @@ if st.session_state['logged_in']:
         if st.sidebar.button("Profile"):
             st.session_state['current_page'] = 'profile'
             st.rerun()
-        
+        if st.sidebar.button("Leaderboard"):
+            st.session_state['current_page'] = 'rank_users'
+            st.rerun()
         if st.session_state['current_page'] == 'display_organizations':
             display_organizations()
         elif st.session_state['current_page'] == 'profile':
             profile()
+        elif st.session_state['current_page'] == 'rank_users':
+            rank_users()
     
     elif user_type == 'organization':
         if 'current_page' not in st.session_state or not st.session_state['current_page']:
             st.session_state['current_page'] = 'rank_users'
-        if st.sidebar.button("Rank Users"):
+        if st.sidebar.button("Leaderboard"):
             st.session_state['current_page'] = 'rank_users'
             st.rerun()
-        if st.sidebar.button("Posts Events"):
+        if st.sidebar.button("Post Events"):
             st.session_state['current_page'] = 'post_event'
             st.rerun()
         if st.sidebar.button("Profile"):

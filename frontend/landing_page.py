@@ -37,7 +37,7 @@ def landing_page():
         with cola:
             st.image("../assets/rb_74201.png", width=100)
             st.title("Welcome to GoodDeeds!")
-            st.subheader("Empowering communities through volunteerism.")
+            st.subheader("Empowering communities through volunteer initiatives.")
             st.write("Join hands with NGOs to support community service and post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
 
             
@@ -77,7 +77,7 @@ def landing_page():
                 reset_states()
                 
                 if st.session_state.show_options:
-                    @st.dialog("Sign up as:")
+                    @st.dialog("How would you like to sign up?")
                     def type_modal():
                         col1, col2 = st.columns(2)
                         with col1:

@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 from geopy.geocoders import Nominatim
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def init_chat_state(event_id):
     """Initialize chat state for a specific event"""
@@ -108,14 +108,34 @@ def display_organizations():
 
         # Filter options for date and time
         st.sidebar.header("Filter Events")
-        start_date = st.sidebar.date_input("Start Date", datetime.now().date())
-        start_time = st.sidebar.time_input("Start Time", datetime.now().time())
-        end_date = st.sidebar.date_input("End Date", datetime.now().date())
-        end_time = st.sidebar.time_input("End Time", datetime.now().time())
+        default_start_date = datetime.now().date()
+        default_start_time = datetime.now().time().replace(second=0, microsecond=0, minute=(datetime.now().minute // 15) * 15)
+        default_end_date = (datetime.now()+ timedelta(days=365)).date()
+        default_end_time = datetime.now().time().replace(second=0, microsecond=0, minute=(datetime.now().minute // 15) * 15)
+
+        start_date = st.sidebar.date_input("Start Date", default_start_date)
+        start_time = st.sidebar.time_input("Start Time", default_start_time)
+        end_date = st.sidebar.date_input("End Date", default_end_date)
+        end_time = st.sidebar.time_input("End Time", default_end_time)
 
         start_datetime = datetime.combine(start_date, start_time)
         end_datetime = datetime.combine(end_date, end_time)
+        sday = start_datetime.day
+        eday = end_datetime.day
+        if 4 <= sday <= 20 or 24 <= sday <= 30:
+            ssuffix = "th"
+        else:
+            ssuffix = ["st", "nd", "rd"][sday % 10 - 1]
         
+        if 4 <= eday <= 20 or 24 <= eday <= 30:
+            esuffix = "th"
+        else:
+            esuffix = ["st", "nd", "rd"][sday % 10 - 1]
+
+        st.sidebar.write(f"**Selected Start**: {start_datetime.strftime(f'%B {sday}{ssuffix}, %Y, at %I:%M%p')}")
+        st.sidebar.write(f"**Selected End**: {end_datetime.strftime(f'%B {eday}{esuffix}, %Y, at %I:%M%p')}")
+        
+
         for org in organizations:
             name = org['name']
             id = org['id']
@@ -166,7 +186,7 @@ def display_organizations():
                         else:
                             suffix = ["st", "nd", "rd"][day % 10 - 1]
 
-                        formatdate = event_datetime.strftime(f'%B {day}{suffix}, %Y, %I:%M%p')
+                        formatdate = event_datetime.strftime(f'%B {day}{suffix}, %Y, at %I:%M%p')
                         st.write(f"**Details for {eventname}**")
                         st.write(f"**Organized by:** {name}")
                         st.write(f"**Description:** {description}")

@@ -47,3 +47,15 @@ class UserResource(Resource):
         db.session.commit()
         
         return {'message': 'User created', 'id': new_user.id}, 201
+    
+    def put(self, user_id):
+        user = User.query.get(user_id)
+        if user:
+            data = request.get_json()
+            user.distance = data.get('distance', user.distance)
+            user.xp = data.get('xp', user.xp)
+            user.name = data.get('name', user.name)
+            user.email = data.get('email', user.email)
+            db.session.commit()
+            return {'message': 'User updated'}, 200
+        return {'message': 'User not found'}, 404

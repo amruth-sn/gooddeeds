@@ -54,3 +54,14 @@ class OrganizationResource(Resource):
         db.session.commit()
         
         return {'message': 'Organization created', 'id': new_organization.id}, 201
+    
+    def put(self, org_id):
+        organization = Organization.query.get(org_id)
+        if organization:
+            data = request.get_json()
+            organization.name = data.get('name', organization.name)
+            organization.email = data.get('email', organization.email)
+            organization.description = data.get('description', organization.description)
+            db.session.commit()
+            return {'message': 'Organization updated'}, 200
+        return {'message': 'Organization not found'}, 404
