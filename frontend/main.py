@@ -12,7 +12,7 @@ st.markdown("""
     <style>
             /* Page Background Styling */
     .stApp {
-        background-image: url('/assets/arches-1920x1080.png');
+        background-image: url('assets/arches-1920x1080.png');
         # background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;

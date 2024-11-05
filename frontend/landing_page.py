@@ -35,7 +35,7 @@ def landing_page():
     with col0:
         cola, colb = st.columns([2, 1])
         with cola:
-            st.image("../assets/rb_74201.png", width=100)
+            st.image("assets/rb_74201.png", width=100)
             st.title("Welcome to GoodDeeds!")
             st.subheader("Empowering communities through volunteer initiatives.")
             st.write("Join hands with NGOs to support community service and post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
@@ -182,4 +182,4 @@ def landing_page():
         
     with g:
             st.write("")
-            st.image("../assets/rb_58875.png", use_column_width=False, width=500)
+            st.image("assets/rb_58875.png", use_column_width=False, width=500)
