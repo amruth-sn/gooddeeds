@@ -3,6 +3,7 @@ import requests
 from display_organizations import *
 from geopy.geocoders import Nominatim
 import time
+import os
 
 
 def landing_page():
@@ -30,12 +31,13 @@ def landing_page():
         return location.latitude, location.longitude
 
 
-
+    current_dir = os.path.dirname(__file__)
     col0, g, _ = st.columns([3, 1, 1])
     with col0:
         cola, colb = st.columns([2, 1])
         with cola:
-            st.image("assets/rb_74201.png", width=100)
+            image_path = os.path.join(current_dir, "assets", "rb_74201.png")
+            st.image(image_path, width=100)
             st.title("Welcome to GoodDeeds!")
             st.subheader("Empowering communities through volunteer initiatives.")
             st.write("Join hands with NGOs to support community service and post-disaster recovery efforts. Whether you're an organization looking for volunteers or a user willing to contribute, this platform connects you to impactful opportunities.")
@@ -182,4 +184,5 @@ def landing_page():
         
     with g:
             st.write("")
-            st.image("assets/rb_58875.png", use_column_width=False, width=500)
+            newimage_path = os.path.join(current_dir, "assets", "rb_58875.png")
+            st.image(newimage_path, use_column_width=False, width=500)
