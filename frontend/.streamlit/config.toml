@@ -1,4 +1,5 @@
 [theme]
+base = "light"
 # Primary color for interactive elements
 primaryColor = "#2E7D32"  # Forest Green - Main accent color for buttons and interactive elements
 
