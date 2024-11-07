@@ -25,6 +25,9 @@ api = Api(app)
 
 with app.app_context():
     db.create_all()
+    db.session.execute('ALTER SEQUENCE organizations_id_seq RESTART WITH 1')
+    db.session.execute('ALTER SEQUENCE users_id_seq RESTART WITH 1')
+    db.session.commit()
 
 api.add_resource(UserResource, '/users/<int:user_id>', '/users')
 api.add_resource(OrganizationResource, '/organizations/<int:org_id>', '/organizations')

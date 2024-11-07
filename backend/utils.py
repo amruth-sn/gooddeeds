@@ -1,6 +1,6 @@
 import time
 from functools import wraps
-from sqlalchemy.exc import OperationalError, SQLAlchemyError
+from sqlalchemy.exc import OperationalError, IntegrityError
 
 def retry_on_db_error(max_retries=3, delay=1):
     def decorator(f):
@@ -10,6 +10,8 @@ def retry_on_db_error(max_retries=3, delay=1):
             while retries < max_retries:
                 try:
                     return f(*args, **kwargs)
+                except IntegrityError:
+                    raise
                 except OperationalError as e:
                     retries += 1
                     if retries == max_retries:

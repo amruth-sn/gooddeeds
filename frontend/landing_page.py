@@ -179,6 +179,8 @@ def landing_page():
                                     time.sleep(2)
                                     reset_states()
                                     st.rerun()
+                                elif response.status_code == 500:
+                                    st.write("Please refresh the page and try again.")
                                 else:
                                     st.write("Sign up failed. Please enter all required fields.")
                             else:
