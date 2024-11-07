@@ -3,10 +3,12 @@ from flask_restful import Resource
 from models import User, Organization
 from resources.organization_resource import OrganizationResource
 from resources.user_resource import UserResource
+from utils import retry_on_db_error
 
 app = Flask(__name__)
 
 class SignUpResource(Resource):
+    @retry_on_db_error()
     def post(self):
         data = request.get_json()
         account_type = data.get('type')
