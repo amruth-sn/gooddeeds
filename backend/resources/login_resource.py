@@ -4,8 +4,8 @@ from models import User, Organization
 from utils import retry_on_db_error
 
 app = Flask(__name__)
-@retry_on_db_error()
 class LoginResource(Resource):
+    @retry_on_db_error()
     def post(self):
         try:
             data = request.get_json()
