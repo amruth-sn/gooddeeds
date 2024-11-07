@@ -17,6 +17,7 @@ from resources.chatbot_resource import ChatbotResource
 from chat_backend import chat_bp
 from models import db
 from config import Config
+from sqlalchemy import text
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -25,8 +26,8 @@ api = Api(app)
 
 with app.app_context():
     db.create_all()
-    db.session.execute('ALTER SEQUENCE organizations_id_seq RESTART WITH 1')
-    db.session.execute('ALTER SEQUENCE users_id_seq RESTART WITH 1')
+    db.session.execute(text('ALTER SEQUENCE organizations_id_seq RESTART WITH 1'))
+    db.session.execute(text('ALTER SEQUENCE users_id_seq RESTART WITH 1'))
     db.session.commit()
 
 api.add_resource(UserResource, '/users/<int:user_id>', '/users')
