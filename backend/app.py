@@ -26,8 +26,8 @@ api = Api(app)
 
 with app.app_context():
     db.create_all()
-    db.session.execute(text('ALTER SEQUENCE organizations_id_seq RESTART WITH 1'))
-    db.session.execute(text('ALTER SEQUENCE users_id_seq RESTART WITH 1'))
+    db.session.execute(text("SELECT setval('organizations_id_seq', (SELECT MAX(id) FROM organizations) + 1)"))
+    db.session.execute(text("SELECT setval('users_id_seq', (SELECT MAX(id) FROM users) + 1)"))
     db.session.commit()
 
 api.add_resource(UserResource, '/users/<int:user_id>', '/users')
