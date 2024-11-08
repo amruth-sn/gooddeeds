@@ -1,3 +1,6 @@
+## Live Site!
+https://gooddeeds.streamlit.app/
+
 ## Inspiration
 With the unfortunate recent rise of natural disasters and man-made tragedies seemingly hitting the news more often, we came to realize that there is no active platform made exclusively for volunteers and community service organizers to come together. Existing systems for **community** efforts are often scattered, lack incentives, and don’t prioritize ease of connection between organizations and individuals who want to help. We wanted to change that by building a _streamlined_ solution that not only encourages more people to volunteer but also supports local organizers in community service and **managing** disaster recovery. By providing a centralized platform, incentives for volunteers, and regular communication through automated emails, we aim to make community engagement accessible, rewarding, and impactful for everyone involved.
 
@@ -21,14 +24,14 @@ Something I'm personally (Andrew) proud of is mailing - I was able to set up an 
 ## What we learned
 For Amruth and Andrew, this was our first ever Hackathon! Although we've both had experience in AI and software development, this was a super new and great learning experience. I've never personally deployed any project from the ground up - learning to set up and deploy Postgres, our Flask API, and Frontend was really cool. 
 
-## What's next for GoodDeeds
-## Brand Partnerships
+## What's next for GoodDeeds:
+# Brand Partnerships
 
 - Develop a points-based rewards program where volunteers earn discounts or promo codes from partner brands that align with your mission.
 
 - Offer tiered sponsorship levels with more prominent placement for higher-level partners, highlighting them on your website and in volunteer communications.
 
-## NGO Partnerships
+# NGO Partnerships
 
 - Build relationships with diverse local and international NGOs to offer a wide range of opportunities, creating a streamlined onboarding process for them to list volunteer needs.
 
