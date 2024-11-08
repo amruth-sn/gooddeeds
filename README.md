@@ -25,13 +25,13 @@ Something I'm personally (Andrew) proud of is mailing - I was able to set up an 
 For Amruth and Andrew, this was our first ever Hackathon! Although we've both had experience in AI and software development, this was a super new and great learning experience. I've never personally deployed any project from the ground up - learning to set up and deploy Postgres, our Flask API, and Frontend was really cool. 
 
 ## What's next for GoodDeeds:
-# Brand Partnerships
+### Brand Partnerships
 
 - Develop a points-based rewards program where volunteers earn discounts or promo codes from partner brands that align with your mission.
 
 - Offer tiered sponsorship levels with more prominent placement for higher-level partners, highlighting them on your website and in volunteer communications.
 
-# NGO Partnerships
+### NGO Partnerships
 
 - Build relationships with diverse local and international NGOs to offer a wide range of opportunities, creating a streamlined onboarding process for them to list volunteer needs.
 
