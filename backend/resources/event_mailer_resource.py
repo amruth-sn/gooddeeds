@@ -3,6 +3,8 @@ from flask import request
 from models import Organization, User, Event
 import geopy.distance
 import requests
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, To, Email
 from config import Config
 
 
@@ -96,15 +98,27 @@ def format(user_id, events):
     return complete_html
 
 def send(recipients, html):
-    requests.post(
-        f"https://api.mailgun.net/v3/{Config.MAILGUN_SANDBOX}.mailgun.org/messages",
-        auth=("api", f"{Config.MAILGUN_API_KEY}"),
-        data={"from": f"<mailgun@{Config.MAILGUN_SANDBOX}.mailgun.org>",
-            "to": ["gooddeedsplatform@gmail.com"],
-            "bcc": recipients,
-            "subject": "Here are some events in the upcoming week!",
-            "text": "test",
-            "html": html})
+    sg = SendGridAPIClient(Config.SENDGRID_API_KEY)
+    
+    message = Mail(
+        from_email=Email(Config.SENDER_EMAIL),
+        to_emails=To('gooddeedsplatform@gmail.com'),
+        subject='Here are some events in the upcoming week!',
+        html_content=html
+    )
+    
+    # Handle single recipient or list of recipients
+    if isinstance(recipients, str):
+        recipients = [recipients]
+    for recipient in recipients:
+        message.add_bcc(recipient)
+
+    try:
+        response = sg.send(message)
+        return response.status_code
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        raise
    
 class EventMailerResource(Resource):
     def get(self):

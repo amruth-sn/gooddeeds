@@ -1,7 +1,9 @@
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.pool import QueuePool
+from dotenv import load_dotenv
 class Config:
+    load_dotenv()
     SQLALCHEMY_DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
@@ -12,7 +14,7 @@ class Config:
         'pool_pre_ping': True
     }
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    MAILGUN_API_KEY = os.getenv("MAILGUN_API_KEY")
-    MAILGUN_SANDBOX = os.getenv("MAILGUN_SANDBOX")
+    SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+    SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 
     

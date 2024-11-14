@@ -2,7 +2,8 @@ from flask_restful import Resource
 from flask import request
 from models import Organization, User, Event
 import geopy.distance
-import requests
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, To, Email
 from config import Config
 
 def format(user_id, event_name, organization, severity, description, recipient_name=None):
@@ -118,15 +119,28 @@ def format(user_id, event_name, organization, severity, description, recipient_n
     return html
 
 def send(recipients, html):
-    requests.post(
-        f"https://api.mailgun.net/v3/{Config.MAILGUN_SANDBOX}.mailgun.org/messages",
-        auth=("api", f"{Config.MAILGUN_API_KEY}"),
-        data={"from": f"<mailgun@{Config.MAILGUN_SANDBOX}.mailgun.org>",
-            "to": ["gooddeedsplatform@gmail.com"],
-            "bcc": recipients,
-            "subject": "We need your help!",
-            "text": "test",
-            "html": html})
+    sg = SendGridAPIClient(Config.SENDGRID_API_KEY)
+    
+    # Create personalization for BCC
+    message = Mail(
+        from_email=Email(Config.SENDER_EMAIL),
+        to_emails=To('gooddeedsplatform@gmail.com'),
+        subject='We need your help!',
+        html_content=html
+    )
+    
+    # Add BCCs
+    if isinstance(recipients, str):
+        recipients = [recipients]
+    for recipient in recipients:
+        message.add_bcc(recipient)
+
+    try:
+        response = sg.send(message)
+        return response.status_code
+    except Exception as e:
+        print(f"Error sending email: {e}")
+        raise
    
 class UserMailerResource(Resource):
     def get(self):
@@ -164,7 +178,6 @@ class UserMailerResource(Resource):
                 })
 
         for u in users_within_distance:
-            print(u)
             html = format(u.get('id'), event.name, organization.name, event.severity, event.description) 
             send(u.get('email'), html)
         return {'mail': True}, 200
