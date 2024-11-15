@@ -30,6 +30,7 @@ def landing_page():
         location = geolocator.geocode(f'{zipcode}, USA')
         return location.latitude, location.longitude
     
+    os.chdir("/mount/src/gooddeeds/frontend")
     st.write("Current working directory:", os.getcwd())
 
 # List all files and directories in the current working directory
