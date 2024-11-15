@@ -30,15 +30,7 @@ def landing_page():
         location = geolocator.geocode(f'{zipcode}, USA')
         return location.latitude, location.longitude
     
-    os.chdir("/mount/src/gooddeeds/frontend")
-    st.write("Current working directory:", os.getcwd())
 
-# List all files and directories in the current working directory
-    config_path = os.path.join(os.getcwd(), ".streamlit/config.toml")
-    if os.path.exists(config_path):
-        st.write("Config file found at:", config_path)
-    else:
-        st.write("Config file not found.")
 
     current_dir = os.path.dirname(__file__)
     col0, g, _ = st.columns([3, 1, 1])
