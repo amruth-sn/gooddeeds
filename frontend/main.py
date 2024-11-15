@@ -5,7 +5,7 @@ from event import post_event
 from userList import rank_users
 from profile import display_profile as profile
 
-st.set_page_config(page_title="GoodDeeds", layout="wide")
+st.set_page_config(page_title="GoodDeeds", layout="wide", page_icon='❤️')
 
 # Custom CSS for styling
 st.markdown("""
