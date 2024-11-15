@@ -4,13 +4,7 @@ from display_organizations import display_organizations
 from event import post_event
 from userList import rank_users
 from profile import display_profile as profile
-import os
-config_path = os.path.join(os.getcwd(), ".streamlit/config.toml")
-if os.path.exists(config_path):
-    print("Config file found at:", config_path)
-else:
-    print("Config file not found.")
-    
+
 st.set_page_config(page_title="GoodDeeds", layout="wide", page_icon='❤️')
 
 # Custom CSS for styling
