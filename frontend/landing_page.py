@@ -32,9 +32,9 @@ def landing_page():
     
     config_path = os.path.join(os.getcwd(), ".streamlit/config.toml")
     if os.path.exists(config_path):
-        print("Config file found at:", config_path)
+        st.write("Config file found at:", config_path)
     else:
-        print("Config file not found.")
+        st.write("Config file not found.")
 
     current_dir = os.path.dirname(__file__)
     col0, g, _ = st.columns([3, 1, 1])
