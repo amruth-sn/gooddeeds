@@ -16,43 +16,42 @@ st.markdown("""
         # background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
-        background-color: #ffffe0
     }
 
             
-    .stSidebar .sidebar-content,
-        .stMarkdown,
-        div[data-testid="stDecoration"],
-         {
-            background-color: #F1F8E9;
-        }
+    # .stSidebar .sidebar-content,
+    #     .stMarkdown,
+    #     div[data-testid="stDecoration"],
+    #      {
+    #         background-color: #F1F8E9;
+    #     }
             
-    /* Primary color for buttons, sliders, etc */
-        .stButton>button,
-        .stSelectbox>div>div,
-        .stSlider>div>div>div {
-            background-color: #2E7D32;
-            color: #ffff00;
-        }
+    # /* Primary color for buttons, sliders, etc */
+    #     .stButton>button,
+    #     .stSelectbox>div>div,
+    #     .stSlider>div>div>div {
+    #         background-color: #2E7D32;
+    #         color: #ffff00;
+    #     }
         
-        /* Text color */
-        .stMarkdown,
-        .stText,
-        p,
-        .stSelectbox label {
-            color: #263238;
-        }
+    #     /* Text color */
+    #     .stMarkdown,
+    #     .stText,
+    #     p,
+    #     .stSelectbox label {
+    #         color: #263238;
+    #     }
         
-        /* Font family */
-        * {
-            font-family: sans-serif;
-        }
+    #     /* Font family */
+    #     * {
+    #         font-family: sans-serif;
+    #     }
         
-        /* Hover states for interactive elements */
-        .stButton>button:hover {
-            background-color: #1B5E20;  /* Darker shade of primary color */
-            color: #ffff00;
-        }
+    #     /* Hover states for interactive elements */
+    #     .stButton>button:hover {
+    #         background-color: #1B5E20;  /* Darker shade of primary color */
+    #         color: #ffff00;
+    #     }
     /* Sidebar styles */
     .css-1d391kg {
             background-color: #2E7D32;
