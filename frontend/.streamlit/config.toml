@@ -1,10 +1,10 @@
 [theme]
 base = "light"
 # Primary color for interactive elements
-primaryColor = "#2E7D32"  # Forest Green - Main accent color for buttons and interactive elements
+primaryColor = "#2E7D32"  
 
 # Main background color
-backgroundColor = "#FFFFF0"  # Pure White - Main background
+backgroundColor = "#FFFFF0"  
 
 # Background color for sidebar and most widgets
 secondaryBackgroundColor = "#F1F8E9"  # Light Mint - Secondary panels and cards

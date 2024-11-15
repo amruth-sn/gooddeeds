@@ -190,4 +190,4 @@ def landing_page():
     with g:
             st.write("")
             newimage_path = os.path.join(current_dir, "assets", "rb_58875.png")
-            st.image(newimage_path, use_container_width=False, width=500)
+            st.image(newimage_path, use_container_width=False, width=750)
