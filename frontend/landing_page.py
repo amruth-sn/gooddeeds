@@ -34,13 +34,11 @@ def landing_page():
     st.write("Current working directory:", os.getcwd())
 
 # List all files and directories in the current working directory
-    st.write("Contents of the working directory:")
-    for root, dirs, files in os.walk(os.getcwd()):
-        st.write(f"Directory: {root}")
-        for name in files:
-            st.write(f"File: {os.path.join(root, name)}")
-        for name in dirs:
-            st.write(f"Subdirectory: {os.path.join(root, name)}")
+    config_path = os.path.join(os.getcwd(), ".streamlit/config.toml")
+    if os.path.exists(config_path):
+        st.write("Config file found at:", config_path)
+    else:
+        st.write("Config file not found.")
 
     current_dir = os.path.dirname(__file__)
     col0, g, _ = st.columns([3, 1, 1])
