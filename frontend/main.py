@@ -56,7 +56,7 @@ st.markdown("""
         background-color: rgba(46, 125, 50, 0.1);
         color: #2E7D32;
         border: 1px solid #2E7D32;  /* Maintain border on hover */
-        transform: translateY(5px);
+        transform: translateX(5px);
     }
     button[title="View fullscreen"] {
         display: none;
